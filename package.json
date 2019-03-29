@@ -1,0 +1,27 @@
+{
+    "name": "hotel_server_proto",
+    "version": "1.0.0",
+    "description": "Back end for hotel server - prototype phase",
+    "main": "index.ts",
+    "scripts": {
+        "build": "tsc",
+        "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
+        "start": "npm run build && node ./dist/index.js",
+        "test": "jest"
+    },
+    "author": "Ivan Pilot",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "express": "^4.16.4"
+    },
+    "devDependencies": {
+        "@types/express": "^4.16.1",
+        "jest": "^24.5.0",
+        "prettier": "^1.16.4",
+        "ts-node-dev": "^1.0.0-pre.32",
+        "tslint": "^5.14.0",
+        "tslint-config-prettier": "^1.18.0",
+        "typescript": "^3.3.4000"
+    }
+}
