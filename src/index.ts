@@ -1,25 +1,25 @@
-import bodyParser from 'body-parser';
-import express, { Application, Request, Response } from 'express';
-import helmet from 'helmet';
-import morgan from 'morgan';
+import { Server } from 'http';
+import { app } from './app';
+import { dbConnection } from './services/dbConnection';
 import { logger } from './services/logger';
+import gracefulShutdown from './services/shutdown';
 
-const app: Application = express();
+export let server: Server;
 
-app.use(morgan('dev'));
-app.use(helmet());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+logger.silly(`environment is ${process.env.NODE_ENV}`);
+logger.silly(
+    `PORT env variable is ${process.env.PORT ? process.env.PORT : 'undefined'}`,
+);
 
-app.get('/', (req: Request, res: Response) => {
-    try {
-        logger.info('All is ok.');
-        res.send('Welcome');
-    } catch (e) {
-        res.status(400).send('error when trying to access "/"');
-    }
+(async () => {
+    await dbConnection.open();
+    app.emit('ready');
+})();
+
+app.on('ready', () => {
+    server = app.listen(process.env.PORT || 5000, () =>
+        logger.silly(`Listening on port ${process.env.PORT || 5000}`),
+    );
+
+    gracefulShutdown(server);
 });
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
