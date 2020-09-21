@@ -1,6 +1,7 @@
 import { Application } from 'express';
-import { mainController } from '../controllers';
+import auth from '../authenticate';
+import { userController } from '../controllers/userController';
 
 export const routes = (app: Application) => {
-    app.get('/', mainController.index);
+    app.get('/api/user/:id', auth, userController.show);
 };
