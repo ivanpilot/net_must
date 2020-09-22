@@ -1,6 +1,6 @@
-import { IMessage } from '../interfaces';
+import { IMessage, IOrganization, IUser } from '../interfaces';
 
-export function createMessage(str: string[]): IMessage {
+export function createMessage(str: IUser[]): IMessage {
     return {
         address: str[0]['user_location'],
         city: str[0]['user_city'],
@@ -14,7 +14,7 @@ export function createMessage(str: string[]): IMessage {
     };
 }
 
-export function extractOrganizationId(str: string[]): string {
+export function extractOrganizationId(str: IOrganization[]): string {
     return str[0]['organization_id'];
 }
 
